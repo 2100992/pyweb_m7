@@ -2,20 +2,9 @@
 from bottle import route, run
 from my_math import careful_devision
 
-import logging
+from my_logging import get_logger
 
-logger = logging.getLogger('divider')
-logger.setLevel(logging.INFO)
-
-formatter = logging.Formatter(
-    '%(asctime)s -- %(name)s::%(levelname)s %(message)s'
-)
-#handler = logging.StreamHandler()              #логирование идет в поток в консоль
-
-handler = logging.FileHandler('my_app.log')     #теперь логирование идет в файл
-handler.setLevel(logging.INFO) 
-handler.setFormatter(formatter)
-logger.addHandler(handler)
+logger = get_logger(__name__)
 
 def danger(top, bottom):
     return {
