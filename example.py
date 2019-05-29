@@ -1,21 +1,24 @@
 #encoding: utf-8
-from bottle import route, run
+from bottle import route, run, request
 from my_math import careful_devision
 
 from my_logging import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger('devider-server')
 
+@route('/<top:int>/<bottom:int>')
 def danger(top, bottom):
-    return {
-        'result': careful_devision(top, bottom),
-        'error': None,
-    }
+    res = {'result' : 0, 'error' : None}
+    try:
+        res['result'] = top/bottom
+    except Exception as err:
+        res['error'] = f'Для входных данных {top} и {bottom} не получилось: {err}'
+        agent = request.headers['User-Agent']
+        host = request.headers['Host']
+        path = request.path
+        logger.error(f'Ошибка деления при обращении к {host}{path}. User-Agent: {agent}')
+    return res
+
 
 if __name__ == '__main__':
-    for x in range(1, 5, 2):
-        for y in range(-4, 2, 4):
-            print(f'x = {x}, y = {y}')
-            if y == 0 or x ==0:
-                logger.info('Кто-то пытается делить на ноль!')
-            print(danger(x,y))
+    run(host='localhost', port=8080)
