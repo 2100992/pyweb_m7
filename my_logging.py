@@ -1,3 +1,4 @@
+#encoding: utf-8
 import logging
 
 FORMATTER = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
