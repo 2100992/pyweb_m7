@@ -42,7 +42,8 @@ def get_max_area(record, last_list):
     if record.get_area() > last_list[0].get_area():
         return [record]
     elif record.get_area() == last_list[0].get_area():
-        return last_list.append(record)
+        last_list.append(record)
+        return last_list
     else:
         return last_list
 
@@ -50,7 +51,8 @@ def get_max_elongation(record, last_list):
     if record.get_elongation() > last_list[0].get_elongation():
         return [record]
     elif record.get_elongation() == last_list[0].get_elongation():
-        return last_list.append(record)
+        last_list.append(record)
+        return last_list
     else:
         return last_list
 
@@ -69,7 +71,7 @@ def main():
     counter = 0
 
     for reading_file in files:
-#        try:
+        try:
             with open(reading_file) as f:
                 line = f.readline()
                 record = AreaRecord(line)
@@ -88,25 +90,23 @@ def main():
                     line = f.readline()
                     record = AreaRecord(line)
         
-#        except Exception as err:
-#            logger.error(f'Error ({err}) in reading file -  {reading_file}')
+        except Exception as err:
+            logger.error(f'Error ({err}) in reading file -  {reading_file}')
 
-#    max_area_records_ids = []
-#    max_elongation_records_ids = []
+    max_area_records_ids = []
+    max_elongation_records_ids = []
 
-#    for a in max_area_records:
-#        max_area_records_ids.append(a.id)
+    for a in max_area_records:
+        max_area_records_ids.append(a.id)
 
-#    for e in max_elongation_records:
-#        max_elongation_records_ids.append(e.id)
+    for e in max_elongation_records:
+        max_elongation_records_ids.append(e.id)
 
 
     print(f'Средняя площадь участков - {summ_area / counter}')
-    print(f'Число валидных записей - {counter}')
-    print(max_area_records)
-    print(max_elongation_records)
-#    print(f'Участок/участки ({max_area_records_ids}) с максимальной площадью -  {max_area_records[0].get_area()}')
-#    print(f'Участок/участки ({max_elongation_records_ids}) с максимальной вытянутостью - {max_elongation_records[0].get_elongation}')
+    print(f'Число корректных записей - {counter}')
+    print(f'Участок/участки ({max_area_records_ids}) с максимальной площадью -  {max_area_records[0].get_area()}')
+    print(f'Участок/участки ({max_elongation_records_ids}) с максимальной вытянутостью - {max_elongation_records[0].get_elongation()}')
 
     pass
 
